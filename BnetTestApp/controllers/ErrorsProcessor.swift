@@ -9,12 +9,18 @@
 import Foundation
 import UIKit
 
-func showAlertError(error: NetworkErrors, view: UIViewController) {
-    let alert = UIAlertController(title: "Соединение с интернетом",
-                                  message: """
-                                    В данный момент интернет-соединение недоступно,
-                                    ошибка : \(error)
-                                  """, preferredStyle: .alert)
-    alert.addAction(.init(title: "Закрыть", style: .cancel))
+enum NativeErrors: String {
+    case noConnection = "нет интернет-соединения"
+    case unknown = "неизвестная ошибка сервера"
+}
+
+func showAlertError(error: NativeErrors, view: UIViewController, updateData: @escaping ()->Void) {
+    let alert = UIAlertController(title: "Произошла ошибка",
+                                  message: error.rawValue,
+                                  preferredStyle: .alert)
+    alert.addAction(UIAlertAction(title: "Обновить данные", style: .default, handler: {_ in
+        alert.dismiss(animated: true, completion: nil)
+        updateData()
+    }))
     view.present(alert, animated: true, completion: nil)
 }

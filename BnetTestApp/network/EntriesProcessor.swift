@@ -25,10 +25,9 @@ final class EntriesProcessor: EntriesProcessorProtocol {
                                                      httpBodyParameters: params)) { (data, response, error) in
             if let error = error {
                 print(error)
-                switch error as? NetworkErrors {
-                case .invalidPath:
-                    completion?(nil, .invalidPath)
-                default:
+                if error.localizedDescription == "The Internet connection appears to be offline." {
+                    completion?(nil, .noConnection)
+                } else {
                     completion?(nil, .unknown)
                 }
                 return
@@ -49,7 +48,7 @@ final class EntriesProcessor: EntriesProcessorProtocol {
             }
 
             guard let data = data else {
-                completion?(nil, .notFoundEntry)
+                completion?(nil, .unknown)
                 return
             }
 
@@ -75,10 +74,9 @@ final class EntriesProcessor: EntriesProcessorProtocol {
         { (data, response, error) in
             if let error = error {
                 print(error)
-                switch error as? NetworkErrors {
-                case .invalidPath:
-                    completion?(nil, .invalidPath)
-                default:
+                if error.localizedDescription == "The Internet connection appears to be offline." {
+                    completion?(nil, .noConnection)
+                } else {
                     completion?(nil, .unknown)
                 }
                 return

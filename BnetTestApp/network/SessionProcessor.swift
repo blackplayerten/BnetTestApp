@@ -27,10 +27,9 @@ final class SessionProcessor: SessionProcessorProtocol {
             { (data, response, error) in
                 if let error = error {
                     print(error)
-                    switch error as? NetworkErrors {
-                    case .invalidPath:
-                        seal.reject(NetworkErrors.invalidPath)
-                    default:
+                    if error.localizedDescription == "The Internet connection appears to be offline." {
+                        seal.reject(NetworkErrors.noConnection)
+                    } else {
                         seal.reject(NetworkErrors.unknown)
                     }
                     return
@@ -75,10 +74,9 @@ final class SessionProcessor: SessionProcessorProtocol {
             { (data, response, error) in
                 if let error = error {
                     print(error)
-                    switch error as? NetworkErrors {
-                    case .invalidPath:
-                        seal.reject(NetworkErrors.invalidPath)
-                    default:
+                    if error.localizedDescription == "The Internet connection appears to be offline." {
+                        seal.reject(NetworkErrors.noConnection)
+                    } else {
                         seal.reject(NetworkErrors.unknown)
                     }
                     return

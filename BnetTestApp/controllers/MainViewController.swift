@@ -110,14 +110,10 @@ extension MainViewController {
         }.catch { (error) in
             print(error)
             switch error as? NetworkErrors {
-            case .invalidPath:
-                showAlertError(error: .invalidPath, view: self)
-            case .invalidToken:
-                showAlertError(error: .invalidToken, view: self)
-            case .noToken:
-                showAlertError(error: .noToken, view: self)
+            case .noConnection:
+                showAlertError(error: .noConnection, view: self, updateData: self.checkAuth)
             default:
-                showAlertError(error: .unknown, view: self)
+                showAlertError(error: .unknown, view: self, updateData: self.checkAuth)
             }
         }
     }
@@ -136,16 +132,16 @@ extension MainViewController: ShareEntriesDelegate {
                 if let error = error {
                     print(error)
                     switch error {
-                    case .notFoundEntry:
-                        showAlertError(error: .notFoundEntry, view: self!)
+                    case .noConnection:
+                        showAlertError(error: .noConnection, view: self!, updateData: self!.checkAuth)
                     default:
-                        showAlertError(error: .unknown, view: self!)
+                        showAlertError(error: .unknown, view: self!, updateData: self!.checkAuth)
                     }
                     return
                 }
                 
                 guard let entry = entry else {
-                    showAlertError(error: .notFoundEntry, view: self!)
+                    showAlertError(error: .unknown, view: self!, updateData: self!.checkAuth)
                     return
                 }
                 

@@ -106,22 +106,22 @@ final class AddNewEntryViewController: UIViewController {
                                    completion: { [weak self] (entry, error) in
             DispatchQueue.main.async {
                 if let error = error {
-                    print(error)
-                    switch error {
-                    case .notFoundEntry:
-                        showAlertError(error: .notFoundEntry, view: self!)
-                    default:
-                        showAlertError(error: .unknown, view: self!)
-                    }
-                    return
-                }
-               
-                guard entry != nil else {
-                    showAlertError(error: .notFoundEntry, view: self!)
-                    return
-                }
-                self?.delegateSharingEntries?.updateEntriesAgain()
-                self?.dismiss(animated: true, completion: nil)
+                     print(error)
+                     switch error {
+                     case .noConnection:
+                         showAlertError(error: .noConnection, view: self!, updateData: self!.saveChanges)
+                     default:
+                         showAlertError(error: .unknown, view: self!, updateData: self!.saveChanges)
+                     }
+                     return
+                 }
+                
+                 guard entry != nil else {
+                     showAlertError(error: .unknown, view: self!, updateData: self!.saveChanges)
+                     return
+                 }
+                 self?.delegateSharingEntries?.updateEntriesAgain()
+                 self?.dismiss(animated: true, completion: nil)
             }
        })
     }

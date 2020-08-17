@@ -32,7 +32,11 @@ final class Cell: UITableViewCell {
         labelDaDm.topAnchor.constraint(equalTo: contentView.topAnchor).isActive = true
         labelDaDm.heightAnchor.constraint(equalToConstant: 30).isActive = true
         labelDaDm.layer.borderColor = UIColor.black.cgColor
-        labelDaDm.text = "da: " + data.da + "\ndm: " + data.dm
+        
+        labelDaDm.text = "da: " + data.da
+        if data.da != data.dm {
+            labelDaDm.text! += "\ndm: " + data.dm
+        }
         
         labelBody.topAnchor.constraint(equalTo: labelDaDm.bottomAnchor).isActive = true
         labelBody.heightAnchor.constraint(greaterThanOrEqualToConstant: 80).isActive = true

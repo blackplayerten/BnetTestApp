@@ -37,7 +37,7 @@ enum NetworkErrors: Error {
     case noToken
     case invalidToken
     case noSessionParameter
-    case notFoundEntry
     case invalidPath
+    case noConnection
     case unknown
 }
